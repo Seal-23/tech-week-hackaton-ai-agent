@@ -68,29 +68,30 @@ app.post('/add-to-vectorStore/:vectorStoreID', async (req, res) => {
         .split('\n')
         .map(line => line.trim())
         .filter(line => line.length > 0);
-
-
-    // Use Promise.all to handle async uploads and cleanup
+    const filesIDsBatches = []
+    let filesIdsBatch = [];
     housesList.forEach(async (house, index) => {
         const tempFileName = path.join(os.tmpdir(), `${uuidv4()}.json`);
         fs.writeFileSync(tempFileName, house);
-
         const file = await openai.files.create({
             file: fs.createReadStream(tempFileName),
             purpose: 'assistants'
         });
-
-        await openai.vectorStores.files.create(vectorStoreID, {
-            file_id: file.id
-        });
-
-        if (index % 100 === 0) {
-            console.log(`Processed ${index + 1} / ${housesList.length}`);
-        }
-        // Remove temp file after upload
         fs.unlinkSync(tempFileName);
+        filesIdsBatch.push(file.id);
+        if (index > 0 && index % 100 === 0) {
+            filesIDsBatches.push(filesIdsBatch);
+            filesIdsBatch = [];
+            console.log(filesIDsBatches)
+
+        }
     });
 
+
+
+    // await openai.vectorStores.files.create(vectorStoreID, {
+    //     file_id: file.id
+    // });
     res.send({ success: true });
 });
 
