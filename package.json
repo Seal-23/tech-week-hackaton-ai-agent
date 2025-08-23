@@ -29,7 +29,11 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@mendable/firecrawl-js": "^3.1.0",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "fast-xml-parser": "^5.2.5"
+    "fast-xml-parser": "^5.2.5",
+    "openai": "^5.15.0",
+    "twilio": "^5.8.0"
   }
 }
