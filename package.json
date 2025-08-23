@@ -1,0 +1,35 @@
+{
+  "name": "tech-week-hackaton-ai-agent",
+  "version": "1.0.0",
+  "description": "Agente de AI pensado para la integración con WhatsApp",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && node dist/app.js",
+    "start": "node dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Seal-23/tech-week-hackaton-ai-agent.git"
+  },
+  "keywords": [
+    "ai",
+    "express",
+    "whatsapp"
+  ],
+  "author": "@seal-23, @danielcastaneda23",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Seal-23/tech-week-hackaton-ai-agent/issues"
+  },
+  "homepage": "https://github.com/Seal-23/tech-week-hackaton-ai-agent#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "tslint": "^5.20.1",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "fast-xml-parser": "^5.2.5"
+  }
+}
