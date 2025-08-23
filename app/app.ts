@@ -42,7 +42,7 @@ app.post('/message-recived', async (req, res) => {
     const message = await client.messages.create({
         body: messageToResponse,
         from: 'whatsapp:+14155238886',
-        to: `whatsapp:+${WaId}`,
+        to: `whatsapp:+${WaId}`, // Ensure WaId includes country code
     });
 
     console.log(message.sid);
