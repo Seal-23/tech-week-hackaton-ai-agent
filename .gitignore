@@ -1,5 +1,8 @@
 # Node.js
 node_modules/
+houses/
+src/generated
+dist/
 
 # Logs
 logs
@@ -26,3 +29,7 @@ logs
 .env*
 
 .DS_Store
+/prisma/prisma
+
+/app/generated/prisma
+

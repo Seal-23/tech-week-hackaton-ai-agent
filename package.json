@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc && node dist/app.js",
-    "start": "node dist/app.js"
+    "dev:start": "tsc && node --env-file=.env dist/app/app.js",
+    "dev": "nodemon --watch src -e ts,js,prisma --exec npm run dev:start",
+    "start": "node dist/app/app.js  --env-file=env.prod"
   },
   "repository": {
     "type": "git",
@@ -25,15 +26,17 @@
   "homepage": "https://github.com/Seal-23/tech-week-hackaton-ai-agent#readme",
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "nodemon": "^3.1.10",
     "tslint": "^5.20.1",
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@mendable/firecrawl-js": "^3.1.0",
+    "@pinecone-database/pinecone": "^6.1.2",
+    "@prisma/client": "^6.14.0",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "fast-xml-parser": "^5.2.5",
     "openai": "^5.15.0",
+    "prisma": "^6.14.0",
     "twilio": "^5.8.0",
     "uuid": "^11.1.0"
   }
