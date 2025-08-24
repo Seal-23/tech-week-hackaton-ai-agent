@@ -1,6 +1,6 @@
 class Agent {
 
-    async invokeAgent(prompt: string, config: { thread_id: string }): Promise<{ id: string, message: string }> {
+    async invokeAgent(prompt: string, config: { thread_id: string }): Promise<{ message: string }> {
         throw new Error("Not implemented");
     }
 

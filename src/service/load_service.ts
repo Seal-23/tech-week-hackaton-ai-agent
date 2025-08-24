@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { pc } from "../config/pinecone";
+import { id } from "zod/dist/types/v4/locales";
 
 
 const ROOT_DIR = "/Users/SALARC1/Documents/TechWeek/tech-week-hackaton-ai-agent/houses";
@@ -21,7 +22,7 @@ export async function processFolders() {
         .map((dirent) => dirent.name)
         .sort((a, b) => Number(a) - Number(b));
 
-    const firstTen = subfolders.slice(1, 189);
+    const firstTen = subfolders.slice(0, 2);
 
     for (const folder of firstTen) {
         const folderPath = path.join(ROOT_DIR, folder);
@@ -32,7 +33,7 @@ export async function processFolders() {
             .map((f) => path.join(folderPath, f.name));
 
         const chunks = chunkArray(files, 50);
-        const index = pc.index("habi").namespace("houses");
+        const index = pc.index("habi").namespace("scrapper");
 
 
         console.log(`📂 Carpeta ${folder} → ${chunks.length} lotes`);
@@ -44,20 +45,15 @@ export async function processFolders() {
                 chunk.map(async (filePath) => {
                     try {
                         const fileContent = fs.readFileSync(filePath, 'utf-8');
-                        const metadata = JSON.parse(fileContent)
-                        const text = `
-${metadata.title || "Sin título"}.
-Ubicación: ${metadata.neighborhood || ""}, ${metadata.city_name || ""}.
-Tipo de negocio: ${metadata.business_type || ""}, tipo de propiedad: ${metadata.metadata_type || ""}.
-Habitaciones: ${metadata.rooms || 0}, Baños: ${metadata.bathrooms || 0}, Parqueadero: ${metadata.garage || 0}.
-Área: ${metadata.area || 0} m², Área construida: ${metadata.built_area || 0} m².
-Elevador: ${metadata.elevator ? "Sí" : "No"}.
-Valor arriendo: ${metadata.rent_value || "N/A"}, Valor administración: ${metadata.management_value || "N/A"}.
-Estado: ${metadata.status || "N/A"}.
-  `.trim();
+                        const metadata = JSON.parse(fileContent);
+                        Object.keys(metadata).forEach((k) => {
+                            if (!metadata[k]) {
+                                metadata[k] = ""
+                            }
+                        })
                         records.push({
-                            _id: metadata.web_id,
-                            text,
+                            _id: String(metadata.property_card_id),
+                            text: "Este inmueble tiene un precio de: " + metadata.sale_price + "COP y ademas lo describiriamos como," + metadata.description,
                             ...metadata
                         })
 

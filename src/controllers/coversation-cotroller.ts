@@ -24,21 +24,7 @@ class ConversationController {
         const { Body, WaId } = req.body;
         const response = await this.agent.invokeAgent(Body, { thread_id: req.activeThread });
         this.whatsapp.sendMesagge(response.message, { from: this.from, to: WaId });
-        if (req.activeThread) {
-            await this.prisma.messageThread.update({
-                where: { thread_id: req.activeThread },
-                data: { thread_id: response.id }
-            });
-        } else {
-            await this.prisma.messageThread.create({
-                data: {
-                    customer_phone_number: WaId,
-                    thread_id: response.id,
-                    status: "ACTIVE",
-                },
-            });
-        }
-        res.json({ success: true })
+        res.json({ message: response.message })
     }
 }
 
