@@ -1,7 +1,6 @@
 
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { PrismaDatabase } from "../config/database";
-import { v4 as uuidv4 } from "uuid";
 
 
 export function CheckOrCreateActiveThread() {
@@ -11,7 +10,7 @@ export function CheckOrCreateActiveThread() {
         descriptor: PropertyDescriptor
     ) {
         const originalMethod = descriptor.value;
-        
+
         descriptor.value = async function (req: Request, res: Response) {
             try {
                 const { WaId } = req.body;
@@ -29,17 +28,9 @@ export function CheckOrCreateActiveThread() {
                     },
                 });
 
-                if (!activeThread) {
-                    activeThread = await prisma.messageThread.create({
-                        data: {
-                            customer_phone_number: WaId,
-                            thread_id: uuidv4(),
-                            status: "ACTIVE",
-                        },
-                    });
-                }
-
-                (req as any).activeThread = activeThread.thread_id;
+                if (activeThread) {
+                    (req as any).activeThread = activeThread.thread_id;
+                };
 
                 return originalMethod.apply(this, [req, res]);
             } catch (err) {

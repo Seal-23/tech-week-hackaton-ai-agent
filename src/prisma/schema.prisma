@@ -16,7 +16,7 @@ datasource db {
 model MessageThread {
   id                    Int      @id @default(autoincrement())
   customer_phone_number String   @db.VarChar(255)
-  thread_id             String   @db.VarChar(255)
+  thread_id             String   @db.VarChar(255) @unique
   status                Status   @default(ACTIVE)
   createdAt             DateTime @default(now()) @map("created_at")
   updatedAt             DateTime @updatedAt @map("updated_at")
